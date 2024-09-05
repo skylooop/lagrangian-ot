@@ -19,8 +19,6 @@ from abc import ABC, abstractmethod
 from lagrangian_ot.geometries import Sphere
 import gdown
 
-import scanpy as sc
-
 SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -316,7 +314,7 @@ def sampler_from_data(data, batch_size=None):
 class SphereUniform(ABC):
     manifold: Sphere
     batch_size: int
-    init_rng: jax.random.PRNGKeyArray
+    init_rng: jax.typing.ArrayLike
 
     def __iter__(self) -> Iterator[jnp.array]:
         return self._create_sample_generators()
@@ -334,7 +332,7 @@ class SphereUniform(ABC):
 class WrappedNormal(ABC):
     manifold: Sphere
     batch_size: int
-    init_rng: jax.random.PRNGKeyArray
+    init_rng: jax.typing.ArrayLike
     loc: jnp.ndarray
     scale: jnp.ndarray
 

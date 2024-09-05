@@ -202,9 +202,6 @@ class ManifoldW2NeuralDual:
             legend: bool = True,
             scatter_kwargs: Optional[Dict[str, Any]] = None,
     ) -> Tuple["plt.Figure", "plt.Axes"]:
-        if mpl is None:
-            raise RuntimeError("Please install `matplotlib` first.")
-
         if scatter_kwargs is None:
             scatter_kwargs = {"alpha": 0.5}
 

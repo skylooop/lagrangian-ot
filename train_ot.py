@@ -166,10 +166,10 @@ class Workspace:
         t = current_t / max_t
         assert 0. <= t and t <= 1.
 
-        self.params_geometry = self.params_geometry.unfreeze()
+        #self.params_geometry = self.params_geometry.unfreeze()
         self.params_geometry['lagrangian_potential_module'] = \
             self.geometry.lagrangian_potential_initializer_fn.get_annealed_params(t)
-        self.params_geometry = flax.core.freeze(self.params_geometry)
+        #self.params_geometry = flax.core.freeze(self.params_geometry)
         print('updated lagrangian params: ',
               ', '.join([f'{k}: {v.item():.2e}' for k,v in \
                         self.params_geometry['lagrangian_potential_module'].items()]))

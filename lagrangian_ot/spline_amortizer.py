@@ -98,10 +98,10 @@ class SplineAmortizer:
         assert self.opt_state is not None
         if verbose:
             print('fitting spline amortizer (single step)')
-        params_geometry = params_geometry.unfreeze()
+        #params_geometry = params_geometry.unfreeze()
         params_geometry, self.opt_state, loss, grad_norm = self.update_fn_jit(
             params_geometry, self.opt_state, source_samples, target_samples)
-        params_geometry = flax.core.freeze(params_geometry)
+        #params_geometry = flax.core.freeze(params_geometry)
         if verbose:
             print(f'  loss: {loss:.2e}')
         return params_geometry
@@ -110,7 +110,7 @@ class SplineAmortizer:
               source_sampler, target_sampler, max_iter,
               grad_norm_threshold=None, callback=None):
         print('fitting spline amortizer')
-        params_geometry = params_geometry.unfreeze()
+        #params_geometry = params_geometry.unfreeze()
 
         if self.opt_state is None:
             params_spline_model = params_geometry['spline_model']
@@ -135,5 +135,5 @@ class SplineAmortizer:
             if callback is not None:
                 callback(i)
 
-        params_geometry = flax.core.freeze(params_geometry)
+        #params_geometry = flax.core.freeze(params_geometry)
         return params_geometry
