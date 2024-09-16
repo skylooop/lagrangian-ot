@@ -47,8 +47,7 @@ class LagrangianPotentialBase(flax.linen.Module):
             'temp': jnp.array([new_temp]),
         }
         return new_params
-
-
+    
 # https://github.com/take-koshizuka/NLSB/blob/main/models/potential_2d.py
 class BoxPotential(LagrangianPotentialBase):
     xmin: float = -0.5
@@ -57,14 +56,20 @@ class BoxPotential(LagrangianPotentialBase):
     ymax: float = 0.5
 
     def __call__(self, x):
-        assert x.ndim == 1 and x.shape[0] == self.D
+        #assert x.ndim == 1 and x.shape[0] == self.D
         Ux = (nn.sigmoid((x[0] - self.xmin) / self.temp) - \
               nn.sigmoid((x[0] - self.xmax) / self.temp))
         Uy = (nn.sigmoid((x[1] - self.ymin) / self.temp) - \
               nn.sigmoid((x[1] - self.ymax) / self.temp))
-        U = -Ux * Uy
+        U = Ux * Uy
         return self.M*U
 
+class Styblinski_tan(LagrangianPotentialBase):
+    def __call__(self, x, xmin, xmax):
+        a = -5
+        b = 5
+        x = a + ((x - xmin)*(b - a)) / (xmax - xmin)
+        return 0.5*np.sum(jnp.power(x, 4) - 16*jnp.power(x, 2) + 5*x, axis=0)
 
 class SlitPotential(LagrangianPotentialBase):
     xmin: float = -0.1
@@ -79,7 +84,7 @@ class SlitPotential(LagrangianPotentialBase):
                 nn.sigmoid((x[0] - self.xmax) / self.temp))
         Uy = (nn.sigmoid((x[1] - self.ymin) / self.temp) - \
                 nn.sigmoid((x[1] - self.ymax) / self.temp)) - 1.
-        U = Ux * Uy
+        U = -Ux * Uy
         return self.M*U
 
 class BabyMazePotential(LagrangianPotentialBase):

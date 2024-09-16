@@ -12,7 +12,7 @@ save_all_plots: False
 
 anneal_geometry_steps: 2000
 
-geometry: 'sq_euclidean_manifold'
+geometry: 'lsb_box'
 data: null
 geometry_kwargs:
   spline_solver_kwargs:
